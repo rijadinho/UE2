@@ -25,30 +25,86 @@ typedef struct _Elements_
 
 } Elements;
 
-char openFile(Elements element, char* input);
+typedef struct _Tree_
+{
+  Elements *start_point;
+} Tree;
+
+// Forward declaration
+char openFile(Tree* tree_ptr, char* input);
 char choiceA();
 char choiceB();
 char enterCommand();
+void elementInit(Tree* tree_ptr);
 
+//-----------------------------------------------------------------------------
+/// TODO: !!!Rewrite the text!!!
+/// The main program.
+///
+/// In combination with for and while loops, functions isItDigit and isItFloat
+/// will take care of right input. BubbleSort function should sort numbers
+/// and last checkTriangle func will check if it's triangle and triangle type
+///
+/// @angle initializing the pointer
+/// @param userInput[UCHAR_MAX] used instead of hardcore value or
+///  defining value, since we want 255 characters for our char array
+/// @param num_of_triangles used to store number of triangles on stack.
+///
+/// @return always zero
+//
 int main (int argc, char* argv[])
 {
-  Elements element;
+  Tree tree_obj;
 
   if (argc != 2)
   {
     printf("Usage: ./ass2 [file-name]\n");
     return 1;
   }
-
-  openFile(element, argv[1]);
   
+  elementInit(&tree_obj);
+  openFile(&tree_obj, argv[1]);
+
   if(EOF)
     enterCommand();
   else
     return 0;
 }
 
-char openFile(Elements element, char* input)
+//-----------------------------------------------------------------------------
+///
+/// TODO: Explain function
+/// @param 
+/// void/return?
+//
+void elementInit(Tree* tree_ptr)
+{
+  tree_ptr->start_point = 0;
+}
+
+//-----------------------------------------------------------------------------
+///
+/// TODO: Explain function
+/// @param 
+/// void/return?
+//
+Elements* newElement(char* input)
+{
+  Elements* newElement = (Elements*)malloc(sizeof(Elements));
+  newElement->text_ = input;
+  newElement->choice_A_ = NULL;
+  newElement->choice_B_ = NULL;
+  return newElement; 
+}
+
+
+//-----------------------------------------------------------------------------
+///
+/// TODO: Explain function
+/// @param 
+/// void/return?
+//
+char openFile(Tree* tree_ptr, char* input)
 {
   FILE* file_open = fopen(input, "r");
 
@@ -75,18 +131,18 @@ char openFile(Elements element, char* input)
 
     if (line_counter == 0)
     {
-      element.title_ = line;
+      tree_ptr->start_point->title_ = line;
     }
     else if (line_counter == 1)
     {
-      element.choice_A_ = line;
+      tree_ptr->start_point->choice_A_ = line;
     }
     else if (line_counter == 2)
     {
-      element.choice_B_ = line;
+      tree_ptr->start_point->choice_B_ = line;
     }
     else 
-      element.text_ = line;
+      tree_ptr->start_point->text_ = line;
 
     line_counter++;
   }
@@ -96,6 +152,12 @@ char openFile(Elements element, char* input)
   return 0;
 }
 
+//-----------------------------------------------------------------------------
+///
+/// TODO: Explain function
+/// @param 
+/// void/return?
+//
 char enterCommand()
 {
   printf("Deine Wahl (A/B)? ");
@@ -114,10 +176,23 @@ char enterCommand()
   return command;
 }
 
+//-----------------------------------------------------------------------------
+///
+/// TODO: Explain function
+/// @param 
+/// void/return?
+//
 char choiceA()
 {
   exit(0);
 }
+
+//-----------------------------------------------------------------------------
+///
+/// TODO: Explain function
+/// @param 
+/// void/return?
+//
 char choiceB()
 {
   return 0;
